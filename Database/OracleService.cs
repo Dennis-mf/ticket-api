@@ -11,7 +11,6 @@ public class OracleDbService
         _connectionString = configuration.GetConnectionString("DefaultConnection");
     }
 
-    //get db connection 
     public OracleConnection GetConnection()
     {
         return new OracleConnection(_connectionString);

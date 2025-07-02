@@ -1,4 +1,6 @@
+using ticket_api.DAO;
 using ticket_api.Database;
+using ticket_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,8 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-//oracle db service
 builder.Services.AddScoped<OracleDbService>();
+builder.Services.AddScoped<ITicketDao, TicketDao>();
+builder.Services.AddScoped<ITicketsService, TicketsService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
