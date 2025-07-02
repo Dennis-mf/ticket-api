@@ -16,9 +16,16 @@ public class TicketDao : ITicketDao
     {
         using var connection = _dbService.GetConnection();
         var tickets = new List<Ticket>();
+        
+        var queryString = @"SELECT tickets.id, tickets.title, users.name AS user_assigned, users2.name AS created_by, urgency_levels.description, ticket_status.description
+                    FROM tickets 
+                    JOIN users ON users.id = tickets.user_assigned_id
+                    JOIN users users2 ON users2.id = tickets.created_by_id
+                    JOIN urgency_levels ON urgency_levels.id = tickets.urgency_level_id
+                    JOIN ticket_status ON ticket_status.id = tickets.state_id
+                    WHERE tickets.user_assigned_id = :id";
 
-        //basic, then create the joins to get the correct names and descriptions for the foreign columns 
-        using var command = new OracleCommand("SELECT id, title, user_assigned_id, created_by_id, urgency_level_id, state_id FROM tickets WHERE user_assigned_id = :id", connection);
+        using var command = new OracleCommand(queryString, connection);
 
         command.Parameters.Add(new OracleParameter("id", userId));
         try{
