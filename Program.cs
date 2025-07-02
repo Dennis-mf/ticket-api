@@ -1,8 +1,14 @@
+using ticket_api.Database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//oracle db service
+builder.Services.AddScoped<OracleDbService>();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
